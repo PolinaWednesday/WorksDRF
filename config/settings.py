@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'rest_framework',
     'users',
     'tracker',
@@ -146,3 +147,4 @@ REST_FRAMEWORK = {
     ],
 }
 
+STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
