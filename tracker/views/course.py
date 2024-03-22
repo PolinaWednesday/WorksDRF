@@ -3,7 +3,7 @@ from requests import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from tracker.models import Course
+from tracker.models import Course, Lesson
 from tracker.paginations import CoursePagination
 from tracker.serializers.course import CourseSerializer
 from tracker.utils import get_url_for_payment
@@ -19,9 +19,9 @@ class CourseViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_moderator:
-            return Course.objects.all()
-        return Course.objects.filter(owner=user)
+        if user.groups.filter(name='moderator').exists():
+            return Lesson.objects.all()
+        return Lesson.objects.filter(course__user=user)
 
     def perform_create(self, serializer):
         new_course = serializer.save()
