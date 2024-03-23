@@ -15,5 +15,5 @@ def set_schedule(*args, **kwargs):
         kwargs=json.dumps({
             "be_careful": True,
         }),
-        expires=datetime.utcnow() + timedelta(seconds=30)
+        expires=datetime.utcnow() + timedelta(days=30)
     )

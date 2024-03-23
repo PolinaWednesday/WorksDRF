@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -168,3 +169,10 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'users.tasks.check_all_users_last_login',  # Путь к задаче
+        'schedule': timedelta(days=30),  # Расписание выполнения задачи (каждые 30 дней)
+    },
+}
