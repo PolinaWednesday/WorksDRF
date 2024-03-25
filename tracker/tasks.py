@@ -5,13 +5,13 @@ from tracker.models import Subscription
 
 
 @shared_task
-def send_email_update_course(course):
-    subscriptions = Subscription.objects.all().filter(course=course)
+def send_email_update_course(course_id):
+    subscriptions = Subscription.objects.all().filter(course_id=course_id)
     users = []
     for subscription in subscriptions:
         users.append(subscription.user)
     for user in users:
-        message = f"Привет {user.name}. {course.name} был обновлен."
+        message = f"Привет {user.first_name} {user.last_name}. {course_id} был обновлен."
         send_mail(
             subject="Course's update",
             message=message,
