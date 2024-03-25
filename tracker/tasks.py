@@ -2,11 +2,12 @@ from django.core.mail import send_mail
 from config.settings import EMAIL_HOST_USER
 from celery import shared_task
 from tracker.models import Subscription
+from tracker.views import course
 
 
 @shared_task
 def send_email_update_course(course_id):
-    subscriptions = Subscription.objects.all().filter(course_id=course_id)
+    subscriptions = Subscription.objects.all().filter(course=course_id)
     users = []
     for subscription in subscriptions:
         users.append(subscription.user)

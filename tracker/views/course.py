@@ -21,7 +21,7 @@ class CourseViewSet(ModelViewSet):
         user = self.request.user
         if user.groups.filter(name='moderator').exists():
             return Course.objects.all()
-        return Course.objects.filter(course__user=user)
+        return Course.objects.filter(user=user)
 
     def perform_create(self, serializer):
         new_course = serializer.save()
@@ -31,7 +31,7 @@ class CourseViewSet(ModelViewSet):
     def perform_update(self, serializer):
         updated_course = serializer.save()
         instance = serializer.instance
-        send_email_update_course.delay(instance)
+        send_email_update_course.delay(instance.id)
         updated_course.save()
 
     def get_permissions(self):
